@@ -1,34 +1,8 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import React from 'react';
+import {useRouter} from 'next/router'
 import appConfig from '../config.json';
 
-function GlobalStyle() {
-    return (
-        <style global jsx>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          list-style: none;
-        }
-        body {
-          font-family: 'Open Sans', sans-serif;
-        }
-        /* App fit Height */ 
-        html, body, #__next {
-          min-height: 100vh;
-          display: flex;
-          flex: 1;
-        }
-        #__next {
-          flex: 1;
-        }
-        #__next > * {
-          flex: 1;
-        }
-        /* ./App fit Height */ 
-      `}</style>
-    );
-}
 
 function Titulo(props) {
 
@@ -48,6 +22,8 @@ function Titulo(props) {
 
 }
 
+  
+
 // function HomePage() {
 //     return (
 //         <div>
@@ -61,11 +37,15 @@ function Titulo(props) {
 // export default HomePage
 
 export default function PaginaInicial() {
-    const username = '';
+    //const username = '';
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const roteamento = useRouter();
+    //const [disableUsername, setDisableUserName] = React.useState();
+    //const direcionamento = [];
 
     return (
         <>
-            <GlobalStyle />
             <Box
                 styleSheet={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -92,6 +72,10 @@ export default function PaginaInicial() {
                     {/* Formulário */}
                     <Box
                         as="form"
+                        onSubmit={function (eventclick){
+                            eventclick.preventDefault();
+                            roteamento.push('/chat')
+                        }}
                         styleSheet={{
                             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                             width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
@@ -110,6 +94,12 @@ export default function PaginaInicial() {
                         <TextField
                             fullWidth
                             placeholder='User Name'
+                            value={username}
+                            //disabled={disableUsername}
+                            onChange={function (eventuser){
+                                const valor = eventuser.target.value;
+                                setUsername(valor);
+                            }}
                             textFieldColors={{
                                 neutral: {
                                     textColor: appConfig.theme.colors.neutrals[200],
@@ -123,6 +113,11 @@ export default function PaginaInicial() {
                             fullWidth
                             placeholder='Password'
                             type='password'
+                             value={password}
+                             onChange={function (eventpass){
+                                 const valor = eventpass.target.value;
+                                 setPassword(valor);
+                             }}
                             textFieldColors={{
                                 neutral: {
                                     textColor: appConfig.theme.colors.neutrals[200],
@@ -144,7 +139,16 @@ export default function PaginaInicial() {
                                 mainColor: '#cb9e22',
                                 //mainColorLight: appConfig.theme.colors.primary[400],
                                 mainColorStrong: '#7A5F15',
-                            }}                            
+                            }}
+                            // onClick={function travabotao(username){
+                            //     const numerocaracter = username.target.value
+                            //     if ((numerocaracter.length) > 2){
+                            //         direcionamento.push('/chat')
+                            //     } else {
+                            //         alert("beeeeeeeeeeeeeennnnnnnn!!!!");
+                            //         setDisableUserName(username);
+                            //     }
+                            // }}                 
                         />
                     </Box>
                     {/* Formulário */}
